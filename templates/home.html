@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1 class="mb-4">🍽️ Discover Restaurants</h1>
+
+<h3>Special Offers</h3>
+<div class="row mb-4">
+  {% for offer in offers %}
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm">
+      {% if offer.image %}
+      <img src="{{ offer.image.url }}" class="card-img-top" alt="{{ offer.name }}">
+      {% endif %}
+      <div class="card-body">
+        <h5 class="card-title">{{ offer.name }}</h5>
+        <p class="card-text">{{ offer.offer }}</p>
+        <a href="{% url 'restaurant_menu' offer.id %}" class="btn btn-primary">View Menu</a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p class="text-muted">No offers available.</p>
+  {% endfor %}
+</div>
+
+<h3>All Restaurants</h3>
+<div class="row">
+  {% for restaurant in restaurants %}
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm mb-3">
+      {% if restaurant.image %}
+      <img src="{{ restaurant.image.url }}" class="card-img-top" alt="{{ restaurant.name }}">
+      {% endif %}
+      <div class="card-body">
+        <h5 class="card-title">{{ restaurant.name }}</h5>
+        <p class="card-text">{{ restaurant.description|truncatewords:15 }}</p>
+        <a href="{% url 'restaurant_menu' restaurant.id %}" class="btn btn-success">Order Now</a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p class="text-muted">No restaurants found.</p>
+  {% endfor %}
+</div>
+{% endblock %}
